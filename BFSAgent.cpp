@@ -144,7 +144,7 @@ bool BFSAgent::checkExploredBoxes(Vertex* vtx, int** boxes) {
 
 bool BFSAgent::checkExplored(int* pos, int ** boxes) {
 	for (int i = 0; i < explored.size(); i++) {
-		if(explored[i] -> getPlayerPos(0) == pos[0] && explored[i] -> getPlayerPos(1) == pos[1] && checkExploredBoxes(explored[i], boxes)) {
+		if (explored[i] -> getPlayerPos(0) == pos[0] && explored[i] -> getPlayerPos(1) == pos[1] && checkExploredBoxes(explored[i], boxes)) {
 			return false;
 		}
 	}
@@ -160,40 +160,40 @@ void BFSAgent::expandVertex(){
 		pos[0] = actualVertex -> getPlayerPos(0)-1;
 		pos[1] = actualVertex -> getPlayerPos(1);
 
-		if(checkExplored(pos, boxes)) {
+		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, actualVertex -> getDepthTree()+1, actualVertex -> getPath().append("U"));
 			vertx.push(vtx);
 		}
 	}
-	if(expand(actualVertex, 'D')) {
+	if (expand(actualVertex, 'D')) {
 		int* pos = new int[2];
 		int** boxes = moveBox(actualVertex, pos, 'D');
 		pos[0] = actualVertex -> getPlayerPos(0)+1;
 		pos[1] = actualVertex -> getPlayerPos(1);
 		
-		if(checkExplored(pos, boxes)) {
+		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, actualVertex -> getDepthTree()+1, actualVertex -> getPath().append("D"));
 			vertx.push(vtx);
 		}
 	}
-	if(expand(actualVertex, 'L')) {
+	if (expand(actualVertex, 'L')) {
 		int* pos = new int[2];
 		int** boxes = moveBox(actualVertex, pos, 'L');
 		pos[0] = actualVertex -> getPlayerPos(0);
 		pos[1] = actualVertex -> getPlayerPos(1)-1;
 
-		if(checkExplored(pos, boxes)) {
+		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, actualVertex -> getDepthTree()+1, actualVertex -> getPath().append("L"));
 			vertx.push(vtx);
 		}
 	}
-	if(expand(actualVertex, 'R')) {
+	if (expand(actualVertex, 'R')) {
 		int* pos = new int[2];
 		int** boxes = moveBox(actualVertex, pos, 'R');
 		pos[0] = actualVertex -> getPlayerPos(0);
 		pos[1] = actualVertex -> getPlayerPos(1)+1;
 
-		if(checkExplored(pos, boxes)) {
+		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, actualVertex -> getDepthTree()+1, actualVertex -> getPath().append("R"));
 			vertx.push(vtx);
 		}
