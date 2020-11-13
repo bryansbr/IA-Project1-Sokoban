@@ -10,8 +10,8 @@ Autores: Bryan Steven Biojó - 1629366
 
 #include "BFSAgent.h"
 
-BFSAgent::BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* tableIn) {	
-	table =* tableIn;
+BFSAgent::BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* boardIn) {	
+	board =* boardIn;
     numBoxes = numBoxesIn;
     Vertex* vtx = new Vertex(pos, initBoxesPosIn, 0);
 	vertx.push(vtx);
@@ -26,9 +26,9 @@ void BFSAgent::identifyTargets() {
 	int band = 0;
 	targets = new int*[numBoxes];
 
-	for (int i = 0; i < table.size(); i++) {
-		for (int j = 0; j < table[i].size(); j++) {
-			if (table[i][j] == 'X') {
+	for (int i = 0; i < board.size(); i++) {
+		for (int j = 0; j < board[i].size(); j++) {
+			if (board[i][j] == 'X') {
 				targets[band] = new int[2];
 				targets[band][0] = i;
 				targets[band][1] = j;
@@ -48,9 +48,9 @@ bool BFSAgent::searchBox(int posA, int posB, Vertex* vtx) {
 }
 
 bool BFSAgent::checkObstacle(int posA, int posB, Vertex* vtx) {
-	if (posA < 0 || posB < 0 || posA >= table.size() || posB >= table[0].length()) {
+	if (posA < 0 || posB < 0 || posA >= board.size() || posB >= board[0].length()) {
 		return true;
-	} else if (table[posA][posB] == 'W' || searchBox(posA, posB, vtx)) {
+	} else if (board[posA][posB] == 'W' || searchBox(posA, posB, vtx)) {
 		return true;
 	} else {
 		return false;
@@ -60,7 +60,7 @@ bool BFSAgent::checkObstacle(int posA, int posB, Vertex* vtx) {
 bool BFSAgent::expand(Vertex* vtx, char move) {
 	switch (move) {
 		case 'U':
-			if (table[vtx -> getPlayerPos(0)-1][vtx -> getPlayerPos(1)] == 'W') {
+			if (board[vtx -> getPlayerPos(0)-1][vtx -> getPlayerPos(1)] == 'W') {
 				return false;
 			} else if (searchBox(vtx -> getPlayerPos(0)-1, vtx -> getPlayerPos(1), vtx) && checkObstacle(vtx -> getPlayerPos(0)-2, vtx -> getPlayerPos(1), vtx)) {
 				return false;
@@ -70,7 +70,7 @@ bool BFSAgent::expand(Vertex* vtx, char move) {
 		break;
 
 		case 'D':
-			if (table[vtx -> getPlayerPos(0)+1][vtx -> getPlayerPos(1)] == 'W') {
+			if (board[vtx -> getPlayerPos(0)+1][vtx -> getPlayerPos(1)] == 'W') {
 				return false;
 			} else if (searchBox(vtx -> getPlayerPos(0)+1, vtx -> getPlayerPos(1), vtx) && checkObstacle(vtx -> getPlayerPos(0)+2, vtx -> getPlayerPos(1), vtx)) {
 				return false;
@@ -80,7 +80,7 @@ bool BFSAgent::expand(Vertex* vtx, char move) {
 		break;
 
 		case 'L':
-			if (table[vtx -> getPlayerPos(0)][vtx -> getPlayerPos(1)-1] == 'W') {
+			if (board[vtx -> getPlayerPos(0)][vtx -> getPlayerPos(1)-1] == 'W') {
 				return false;
 			} else if (searchBox(vtx -> getPlayerPos(0), vtx -> getPlayerPos(1)-1, vtx) && checkObstacle(vtx -> getPlayerPos(0), vtx -> getPlayerPos(1)-2, vtx)) {
 				return false;
@@ -90,7 +90,7 @@ bool BFSAgent::expand(Vertex* vtx, char move) {
 		break;
 
 		case 'R':
-			if (table[vtx -> getPlayerPos(0)][vtx -> getPlayerPos(1)+1] == 'W') {
+			if (board[vtx -> getPlayerPos(0)][vtx -> getPlayerPos(1)+1] == 'W') {
 				return false;
 			} else if (searchBox(vtx -> getPlayerPos(0), vtx -> getPlayerPos(1)+1, vtx) && checkObstacle(vtx -> getPlayerPos(0), vtx -> getPlayerPos(1)+2, vtx)) {
 				return false;

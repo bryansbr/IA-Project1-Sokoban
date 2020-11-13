@@ -21,12 +21,12 @@ class BFSAgent {
     private:
         int numBoxes;
         int** targets;
-        vector <string> table;
+        vector <string> board;
         queue <Vertex*> vertx;
         vector <Vertex*> explored;
 
     public:
-        BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector <string>* table);
+        BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector <string>* board);
         ~BFSAgent();
         int** moveBox(Vertex* vtx, int* pos, char action);
         bool searchBox(int posA, int posB, Vertex* vtx);
