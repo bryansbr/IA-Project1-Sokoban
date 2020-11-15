@@ -10,46 +10,62 @@ Authors: Bryan Steven Biojó     - 1629366
 
 */
 
-#include "AgenteIDFS.h"
+// Libraries
+#include "IterativeDFSAgent.h"
 
-AgenteIDFS::AgenteIDFS(int numBoxesIn, int* pos, int ** cajasInit,vector<string> *tableIn){	
-	table=*tableIn;
-    numBoxes=numBoxesIn;
-	    
-    Nodo * node = new Nodo(pos,cajasInit,0);
-	raiz = node;
-
-	nodes.push(node);
+// Constructor method
+IterativeDFSAgent::IterativeDFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string> *boardIn) {	
+	board =* boardIn;
+    numBoxes = numBoxesIn;
+    Vertex* vtx = new Vertex(posIn, initBoxesPosIn, 0);
+	root = vtx; // Careful!
+	vertx.push(vtx); 
 }
 
-AgenteIDFS::~AgenteIDFS(){}
+// Destructor method
+IterativeDFSAgent::~IterativeDFSAgent() {
 
-void AgenteIDFS::identifyTargets(){
-	
-	int band=0;
+}
 
+// This method identifies the positions of the targets that the boxes must reach.
+void IterativeDFSAgent::identifyTargets() {
+	int flag = 0;
 	targets = new int*[numBoxes];
-	for (int i = 0; i < numBoxes; i++){
+	for (int i = 0; i < numBoxes; i++) {
 		targets[i] = new int[2];
 	}
-	
-
-	for (int i = 0; i < table.size(); i++){
-		for (int j = 0; j < table[i].size(); j++){
-			if (table[i][j]=='X'){
-
-				targets[band][0] = i;
-				targets[band][1] = j;
-				band++;
+	for (int i = 0; i < board.size(); i++) {
+		for (int j = 0; j < board[i].size(); j++) {
+			if (board[i][j] == 'X') {
+				targets[flag][0] = i;
+				targets[flag][1] = j;
+				flag++;
 			}
-			
 		}
-		
 	}
-	
 }
 
-bool AgenteIDFS::searchBox(int posF, int posC, Nodo * node){
+// This method starts the tree search.
+string IterativeDFSAgent::startSearch() {
+	depthLimit = 0;	
+	do {
+		if (vertx.top() -> getDepthTree() < depthLimit) { // Be careful, check! @bryansbr @AndresDFX...
+			expandVertex();	
+		} else {
+			vertx.pop();
+		}
+		if (vertx.empty()) {
+			depthLimit++;
+			for (int j = 0; j < explored.size(); j++) {
+				explored.pop_back();
+			}
+			vertx.push(root);	
+		}
+	} while (!isSolve());
+	return vertx.top() -> getPath();
+}
+
+bool IterativeDFSAgent::searchBox(int posF, int posC, Nodo * node){
 
 	for (int i = 0; i < numBoxes; i++){
 		
@@ -59,9 +75,9 @@ bool AgenteIDFS::searchBox(int posF, int posC, Nodo * node){
 	return false;
 }
 
-bool AgenteIDFS::checkObstacle(int posF,int posC,Nodo * node){
-	if(posF<0 || posC<0 || posF>=table.size() || posC>=table[0].length())return true;
-	else if(table[posF][posC]=='W' || searchBox(posF,posC, node)){
+bool IterativeDFSAgent::checkObstacle(int posF,int posC,Nodo * node){
+	if(posF<0 || posC<0 || posF>=board.size() || posC>=board[0].length())return true;
+	else if(board[posF][posC]=='W' || searchBox(posF,posC, node)){
 		return true;
 	}
 	else return false;
@@ -69,27 +85,27 @@ bool AgenteIDFS::checkObstacle(int posF,int posC,Nodo * node){
 
 }
 
-bool AgenteIDFS::expand(Nodo * node ,char move){
+bool IterativeDFSAgent::expand(Nodo * node ,char move){
 
 	switch (move){
 		case 'R':
-			if(table[node->getPosPlayer(0)][node->getPosPlayer(1)+1]=='W') return false;
+			if(board[node->getPosPlayer(0)][node->getPosPlayer(1)+1]=='W') return false;
 			else if(searchBox(node->getPosPlayer(0),node->getPosPlayer(1)+1, node) && checkObstacle(node->getPosPlayer(0),node->getPosPlayer(1)+2,node)) return false;
 			else return true;
 		break;
 		case 'L':
-			if(table[node->getPosPlayer(0)][node->getPosPlayer(1)-1]=='W') return false;
+			if(board[node->getPosPlayer(0)][node->getPosPlayer(1)-1]=='W') return false;
 			else if(searchBox(node->getPosPlayer(0),node->getPosPlayer(1)-1, node) && checkObstacle(node->getPosPlayer(0),node->getPosPlayer(1)-2,node)) return false;
 			else return true;
 		break;
 		case 'D':
-			if(table[node->getPosPlayer(0)+1][node->getPosPlayer(1)]=='W') return false;
+			if(board[node->getPosPlayer(0)+1][node->getPosPlayer(1)]=='W') return false;
 			else if(searchBox(node->getPosPlayer(0)+1,node->getPosPlayer(1), node) && checkObstacle(node->getPosPlayer(0)+2,node->getPosPlayer(1),node)) return false;
 			else return true;
 	
 		break;
 		case 'U':
-			if(table[node->getPosPlayer(0)-1][node->getPosPlayer(1)]=='W') return false;
+			if(board[node->getPosPlayer(0)-1][node->getPosPlayer(1)]=='W') return false;
 			else if(searchBox(node->getPosPlayer(0)-1,node->getPosPlayer(1), node) && checkObstacle(node->getPosPlayer(0)-2,node->getPosPlayer(1),node)) return false;
 			else return true;
 		break;
@@ -100,7 +116,7 @@ bool AgenteIDFS::expand(Nodo * node ,char move){
 }
 
 
-int** AgenteIDFS::moveBox(Nodo * node,int * pos,char accion){
+int** IterativeDFSAgent::moveBox(Nodo * node,int * pos,char accion){
 	int ** newBoxes = new int *[numBoxes];
 	
 	for (int i = 0; i < numBoxes; i++){
@@ -130,7 +146,7 @@ int** AgenteIDFS::moveBox(Nodo * node,int * pos,char accion){
 	return newBoxes;
 }
 
-bool AgenteIDFS::checkExploredBoxes(Nodo * node, int ** boxes){
+bool IterativeDFSAgent::checkExploredBoxes(Nodo * node, int ** boxes){
 	for (int  i = 0; i < numBoxes; i++){
 		if(node->getPosBoxes(i,0)!=boxes[i][0] || node->getPosBoxes(i,1)!=boxes[i][1]) return false;
 	}
@@ -138,7 +154,7 @@ bool AgenteIDFS::checkExploredBoxes(Nodo * node, int ** boxes){
 }
 
 
-bool AgenteIDFS::checkExplored(int* pos, int ** boxes){
+bool IterativeDFSAgent::checkExplored(int* pos, int ** boxes){
 
 	for (int i = 0; i < explored.size(); i++){
 		if(explored[i]->getPosPlayer(0)==pos[0] &&
@@ -152,9 +168,9 @@ bool AgenteIDFS::checkExplored(int* pos, int ** boxes){
 
 }
 
-void AgenteIDFS::expandNode(){
+void IterativeDFSAgent::expandVertex(){
 
-	if(nodes.top()->getProf()>=64){
+	if(nodes.top()->getDepthTree()>=64){
 		nodes.pop();
 		return;
 	}
@@ -175,7 +191,7 @@ void AgenteIDFS::expandNode(){
 		
 		int** boxes =moveBox(actualNode,pos,'R');
 		if(checkExplored(pos,boxes)){
-			Nodo * node = new Nodo(pos,boxes,actualNode->getProf()+1,actualNode->getPath().append("R"));
+			Nodo * node = new Nodo(pos,boxes,actualNode->getDepthTree()+1,actualNode->getPath().append("R"));
 			nodes.push(node);
 		}
 	}	
@@ -190,7 +206,7 @@ void AgenteIDFS::expandNode(){
 		int** boxes =moveBox(actualNode,pos,'L');
 		
 		if(checkExplored(pos,boxes)){
-			Nodo * node = new Nodo(pos,boxes,actualNode->getProf()+1,actualNode->getPath().append("L"));
+			Nodo * node = new Nodo(pos,boxes,actualNode->getDepthTree()+1,actualNode->getPath().append("L"));
 			nodes.push(node);
 		}
 	}
@@ -204,7 +220,7 @@ void AgenteIDFS::expandNode(){
 		int** boxes =moveBox(actualNode,pos,'D');
 		
 		if(checkExplored(pos,boxes)){
-			Nodo * node = new Nodo(pos,boxes,actualNode->getProf()+1,actualNode->getPath().append("D"));
+			Nodo * node = new Nodo(pos,boxes,actualNode->getDepthTree()+1,actualNode->getPath().append("D"));
 			nodes.push(node);
 		}
 	}
@@ -218,14 +234,14 @@ void AgenteIDFS::expandNode(){
 		int** boxes =moveBox(actualNode,pos,'U');
 		
 		if(checkExplored(pos,boxes)){
-			Nodo * node = new Nodo(pos,boxes,actualNode->getProf()+1,actualNode->getPath().append("U"));
+			Nodo * node = new Nodo(pos,boxes,actualNode->getDepthTree()+1,actualNode->getPath().append("U"));
 			nodes.push(node);
 		}
 	}
 		
 }
 
-bool AgenteIDFS::isSolve(){
+bool IterativeDFSAgent::isSolve(){
 	int counting = 0;
 	
 	for (int i = 0; i < numBoxes; i++){
@@ -243,30 +259,4 @@ bool AgenteIDFS::isSolve(){
 }
 
 
-string AgenteIDFS::iniciarBusqueda(){
 
-	deepLimit=0;
-
-		
-	while(!isSolve()){
-
-		if(nodes.top()->getProf()<deepLimit)expandNode();	
-		else nodes.pop();
-			
-
-		if(nodes.empty()){
-			deepLimit++;
-
-			for (int j = 0; j < explored.size(); j++){
-				explored.pop_back();
-			}
-
-			nodes.push(raiz);	
-		}
-	}
-	
-
-	
-	return nodes.top()->getPath(); 
-	
-}

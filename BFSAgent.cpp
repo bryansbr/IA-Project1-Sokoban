@@ -28,15 +28,15 @@ BFSAgent::~BFSAgent() {
 
 // This method identifies the positions of the targets that the boxes must reach.
 void BFSAgent::identifyTargets() {
-	int band = 0;
+	int flag = 0;
 	targets = new int*[numBoxes];
 	for (int i = 0; i < board.size(); i++) {
 		for (int j = 0; j < board[i].size(); j++) {
 			if (board[i][j] == 'X') {
-				targets[band] = new int[2];
-				targets[band][0] = i;
-				targets[band][1] = j;
-				band++;
+				targets[flag] = new int[2];
+				targets[flag][0] = i;
+				targets[flag][1] = j;
+				flag++;
 			}
 		}
 	}
