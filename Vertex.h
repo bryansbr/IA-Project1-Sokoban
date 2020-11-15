@@ -1,10 +1,12 @@
 /*
 
-Nombre del archivo: Vertex.h
-Fecha de creación: 02/11/2020
-Fecha de modificación: 13/11/2019
-Autores: Bryan Steven Biojó - 1629366
+File name: Vertex.h
+Creation date: 02/11/2020
+Modification date: 15/11/2019
+Authors: Bryan Steven Biojó - 1629366
          Julián Andrés Castaño - 1625743
+		 Juan Sebastián Saldaña - 
+		 El otro men xd - 
 
 */
 

@@ -1,15 +1,18 @@
 /*
 
-Nombre del archivo: BFSAgent.cpp
-Fecha de creación: 02/11/2020
-Fecha de modificación: 13/11/2019
-Autores: Bryan Steven Biojó - 1629366
+File name: BFSAgent.cpp
+Creation date: 02/11/2020
+Modification date: 15/11/2019
+Authors: Bryan Steven Biojó - 1629366
          Julián Andrés Castaño - 1625743
+		 Juan Sebastián Saldaña - 
+		 El otro men xd - 
 
 */
 
 #include "BFSAgent.h"
 
+// Constructor
 BFSAgent::BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* boardIn) {	
 	board =* boardIn;
     numBoxes = numBoxesIn;
@@ -17,11 +20,12 @@ BFSAgent::BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string
 	vertx.push(vtx);
 }
 
+// Destructor
 BFSAgent::~BFSAgent() {
 
 }
 
-//Esta función identifica las posiciones de los objetivos a los que deben llegar las cajas
+// This method identifies the positions of the targets that the boxes must reach
 void BFSAgent::identifyTargets() {
 	int band = 0;
 	targets = new int*[numBoxes];
@@ -38,25 +42,7 @@ void BFSAgent::identifyTargets() {
 	}
 }
 
-bool BFSAgent::searchBox(int posA, int posB, Vertex* vtx) {
-	for (int i = 0; i < numBoxes; i++) {
-		if (vtx -> getBoxesPos(i, 0) == posA && vtx -> getBoxesPos(i, 1) == posB) {
-			return true;
-		}
-	}
-	return false;
-}
-
-bool BFSAgent::checkObstacle(int posA, int posB, Vertex* vtx) {
-	if (posA < 0 || posB < 0 || posA >= board.size() || posB >= board[0].length()) {
-		return true;
-	} else if (board[posA][posB] == 'W' || searchBox(posA, posB, vtx)) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
+// This method is in charge of specifying the move cases: U, D, L, R
 bool BFSAgent::expand(Vertex* vtx, char move) {
 	switch (move) {
 		case 'U':
@@ -102,6 +88,51 @@ bool BFSAgent::expand(Vertex* vtx, char move) {
 	return false;
 }
 
+// This method starts the tree search
+string BFSAgent::startSearch(){ // Be careful, check! @bryansbr @AndresDFX...
+	do {
+		if (vertx.front() -> getDepthTree() >= 64) { // Tree depth restricted to level 64
+			vertx.pop();
+		} else {
+			explored.push_back(vertx.front());
+			expandVertex();
+		}
+	} while (!isSolve());
+	return	vertx.front() -> getPath(); 
+}
+
+// This method is in charge of searching the boxes in the board
+bool BFSAgent::searchBox(int posA, int posB, Vertex* vtx) {
+	for (int i = 0; i < numBoxes; i++) {
+		if (vtx -> getBoxesPos(i, 0) == posA && vtx -> getBoxesPos(i, 1) == posB) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// This method identify if the are obstacles in the board
+bool BFSAgent::checkObstacle(int posA, int posB, Vertex* vtx) {
+	if (posA < 0 || posB < 0 || posA >= board.size() || posB >= board[0].length()) {
+		return true;
+	} else if (board[posA][posB] == 'W' || searchBox(posA, posB, vtx)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+// This method verify if a position in the board were explored
+bool BFSAgent::checkExplored(int* pos, int ** boxes) {
+	for (int i = 0; i < explored.size(); i++) {
+		if (explored[i] -> getPlayerPos(0) == pos[0] && explored[i] -> getPlayerPos(1) == pos[1] && checkExploredBoxes(explored[i], boxes)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+// This method is in charge of move the boxes in the board
 int** BFSAgent::moveBox(Vertex* vtx, int* pos, char action){
 	int** newBoxes = new int*[numBoxes];
 	
@@ -133,6 +164,7 @@ int** BFSAgent::moveBox(Vertex* vtx, int* pos, char action){
 	return newBoxes;
 }
 
+// This method verify if the boxes in the board were explored
 bool BFSAgent::checkExploredBoxes(Vertex* vtx, int** boxes) {
 	for (int  i = 0; i < numBoxes; i++) {
 		if (vtx -> getBoxesPos(i, 0) != boxes[i][0] || vtx -> getBoxesPos(i, 1) != boxes[i][1]) {
@@ -142,15 +174,7 @@ bool BFSAgent::checkExploredBoxes(Vertex* vtx, int** boxes) {
 	return true;
 }
 
-bool BFSAgent::checkExplored(int* pos, int ** boxes) {
-	for (int i = 0; i < explored.size(); i++) {
-		if (explored[i] -> getPlayerPos(0) == pos[0] && explored[i] -> getPlayerPos(1) == pos[1] && checkExploredBoxes(explored[i], boxes)) {
-			return false;
-		}
-	}
-	return true;
-}
-
+// This method expand the vertex in the tree
 void BFSAgent::expandVertex(){
 	Vertex* actualVertex = vertx.front();
 	vertx.pop();
@@ -200,6 +224,7 @@ void BFSAgent::expandVertex(){
 	}	
 }
 
+// This method checks if the tree expansion was done
 bool BFSAgent::isSolve(){
 	int count = 0;
 	for (int i = 0; i < numBoxes; i++) {
@@ -212,16 +237,4 @@ bool BFSAgent::isSolve(){
 	} else {
 		return false;
 	}	
-}
-
-string BFSAgent::startSearch(){ // Update...
-	do {
-		if (vertx.front() -> getDepthTree() >= 64) {
-			vertx.pop();
-		} else {
-			explored.push_back(vertx.front());
-			expandVertex();
-		}
-	} while (!isSolve());
-	return	vertx.front() -> getPath(); 
 }
