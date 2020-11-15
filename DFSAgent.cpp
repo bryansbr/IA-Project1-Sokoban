@@ -78,6 +78,7 @@ bool DFSAgent::checkObstacle(int posA, int posB, Vertex* vtx) {
 	}
 }
 
+// This method is in charge of move the boxes in the board.
 int** DFSAgent::moveBox(Vertex* vtx, int* posIn, char action) {
 	int** newBoxes = new int*[numBoxes];
 	for (int i = 0; i < numBoxes; i++) { 
@@ -178,42 +179,39 @@ void DFSAgent::expandVertex() {
 	vertx.pop();
 	if (expandTree(currentVertex, 'U')) {
 		int* posIn = new int[2];
+		int** boxes =moveBox(currentVertex, posIn, 'U');
 		posIn[0] = currentVertex -> getPlayerPos(0) - 1;
 		posIn[1] = currentVertex -> getPlayerPos(1);
-		int** boxes =moveBox(currentVertex, posIn, 'U');
 		if (checkExplored(posIn, boxes)) {
 			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("U"));
 			vertx.push(node);
 		}
 	}
-
 	if (expandTree(currentVertex, 'D')) {
-		int* posIn = new int [2];
+		int* posIn = new int[2];
+		int** boxes =moveBox(currentVertex, posIn, 'D');
 		posIn[0] = currentVertex -> getPlayerPos(0) + 1;
 		posIn[1] = currentVertex -> getPlayerPos(1);
-		int** boxes =moveBox(currentVertex, posIn, 'D');
 		if (checkExplored(posIn, boxes)) {
 			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("D"));
 			vertx.push(node);
 		}
 	}
-
 	if (expandTree(currentVertex, 'L')) {
-		int* posIn = new int [2];
+		int* posIn = new int[2];
+		int** boxes = moveBox(currentVertex, posIn, 'L');
 		posIn[0] = currentVertex -> getPlayerPos(0);
 		posIn[1] = currentVertex -> getPlayerPos(1) - 1;
-		int** boxes = moveBox(currentVertex, posIn, 'L');
 		if (checkExplored(posIn, boxes)) {
 			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("L"));
 			vertx.push(node);
 		}
 	}
-
 	if (expandTree(currentVertex, 'R')) {
-		int* posIn = new int [2];
+		int* posIn = new int[2];
+		int** boxes = moveBox(currentVertex, posIn, 'R');
 		posIn[0] = currentVertex -> getPlayerPos(0);
 		posIn[1] = currentVertex -> getPlayerPos(1) + 1;
-		int** boxes = moveBox(currentVertex, posIn, 'R');
 		if (checkExplored(posIn, boxes)) {
 			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("R"));
 			vertx.push(node);
