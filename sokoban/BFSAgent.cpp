@@ -44,14 +44,14 @@ void BFSAgent::identifyTargets() {
 
 // This method starts the tree search.
 string BFSAgent::startSearch() { // Be careful, check! @bryansbr @AndresDFX...
-	do {
+	while (!isSolve()) {
 		if (vertx.front() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
 			vertx.pop();
 		} else {
 			explored.push_back(vertx.front());
 			expandVertex();
 		}
-	} while (!isSolve());
+	}
 	return vertx.front() -> getPath(); 
 }
 

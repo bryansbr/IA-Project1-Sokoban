@@ -48,7 +48,7 @@ void IterativeDFSAgent::identifyTargets() {
 // This method starts the tree search.
 string IterativeDFSAgent::startSearch() {
 	depthLimit = 0;	
-	do {
+	while (!isSolve()) {
 		if (vertx.top() -> getDepthTree() < depthLimit) { // Be careful, check! @bryansbr @AndresDFX...
 			expandVertex();	
 		} else {
@@ -61,7 +61,7 @@ string IterativeDFSAgent::startSearch() {
 			}
 			vertx.push(root);	
 		}
-	} while (!isSolve());
+	}
 	return vertx.top() -> getPath();
 }
 
