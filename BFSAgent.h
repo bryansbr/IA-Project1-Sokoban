@@ -2,7 +2,7 @@
 
 File name: BFSAgent.h
 Creation date: 02/11/2020
-Modification date: 15/11/2019
+Modification date: 15/11/2020
 Authors: Bryan Steven Biojó     - 1629366
          Julián Andrés Castaño  - 1625743
 		 Juan Sebastián Saldaña - 
@@ -10,6 +10,7 @@ Authors: Bryan Steven Biojó     - 1629366
 
 */
 
+// Libraries
 #ifndef BFSAGENT_H
 #define BFSAGENT_H
 #include <iostream>
@@ -19,15 +20,16 @@ Authors: Bryan Steven Biojó     - 1629366
 #include "Vertex.h"
 using namespace std;
 
+// Defining the parameters of BFS Agent.
 class BFSAgent {
     private:
         int numBoxes;
         int** targets;
-        vector <string> board;
-        queue <Vertex*> vertx;
-        vector <Vertex*> explored;
+        queue<Vertex*> vertx;
+        vector<string> board;
+        vector<Vertex*> explored;
     public:
-        BFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector <string>* boardIn);
+        BFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string>* boardIn);
         ~BFSAgent();
         void identifyTargets();
         string startSearch();

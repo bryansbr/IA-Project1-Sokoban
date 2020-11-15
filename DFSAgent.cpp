@@ -2,7 +2,7 @@
 
 File name: DFSAgent.cpp
 Creation date: 02/11/2020
-Modification date: 15/11/2019
+Modification date: 15/11/2020
 Authors: Bryan Steven Biojó     - 1629366
          Julián Andrés Castaño  - 1625743
 		 Juan Sebastián Saldaña - 
@@ -10,6 +10,7 @@ Authors: Bryan Steven Biojó     - 1629366
 
 */
 
+// Libraries
 #include "DFSAgent.h"
 
 // Constructor method
@@ -173,48 +174,48 @@ bool DFSAgent::checkExplored(int* posIn, int** boxes) {
 
 // This method expand the vertex in the tree.
 void DFSAgent::expandVertex() {
-	Vertex* actualVertex = vertx.top();
+	Vertex* currentVertex = vertx.top();
 	vertx.pop();
-	if (expandTree(actualVertex, 'U')) {
-		int* pos = new int[2];
-		pos[0] = actualVertex -> getPlayerPos(0) - 1;
-		pos[1] = actualVertex -> getPlayerPos(1);
-		int** boxes =moveBox(actualVertex,pos,'U');
-		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, actualVertex -> getDepthTree() + 1, actualVertex -> getPath().append("U"));
+	if (expandTree(currentVertex, 'U')) {
+		int* posIn = new int[2];
+		posIn[0] = currentVertex -> getPlayerPos(0) - 1;
+		posIn[1] = currentVertex -> getPlayerPos(1);
+		int** boxes =moveBox(currentVertex, posIn, 'U');
+		if (checkExplored(posIn, boxes)) {
+			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("U"));
 			vertx.push(node);
 		}
 	}
 
-	if (expandTree(actualVertex, 'D')) {
-		int* pos = new int [2];
-		pos[0] = actualVertex -> getPlayerPos(0) + 1;
-		pos[1] = actualVertex -> getPlayerPos(1);
-		int** boxes =moveBox(actualVertex,pos,'D');
-		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, actualVertex -> getDepthTree() + 1, actualVertex -> getPath().append("D"));
+	if (expandTree(currentVertex, 'D')) {
+		int* posIn = new int [2];
+		posIn[0] = currentVertex -> getPlayerPos(0) + 1;
+		posIn[1] = currentVertex -> getPlayerPos(1);
+		int** boxes =moveBox(currentVertex, posIn, 'D');
+		if (checkExplored(posIn, boxes)) {
+			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("D"));
 			vertx.push(node);
 		}
 	}
 
-	if (expandTree(actualVertex, 'L')) {
-		int* pos = new int [2];
-		pos[0] = actualVertex -> getPlayerPos(0);
-		pos[1] = actualVertex -> getPlayerPos(1) - 1;
-		int** boxes = moveBox(actualVertex, pos, 'L');
-		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, actualVertex -> getDepthTree() + 1, actualVertex -> getPath().append("L"));
+	if (expandTree(currentVertex, 'L')) {
+		int* posIn = new int [2];
+		posIn[0] = currentVertex -> getPlayerPos(0);
+		posIn[1] = currentVertex -> getPlayerPos(1) - 1;
+		int** boxes = moveBox(currentVertex, posIn, 'L');
+		if (checkExplored(posIn, boxes)) {
+			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("L"));
 			vertx.push(node);
 		}
 	}
 
-	if (expandTree(actualVertex, 'R')) {
-		int* pos = new int [2];
-		pos[0] = actualVertex -> getPlayerPos(0);
-		pos[1] = actualVertex -> getPlayerPos(1) + 1;
-		int** boxes = moveBox(actualVertex, pos, 'R');
-		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, actualVertex -> getDepthTree() + 1, actualVertex -> getPath().append("R"));
+	if (expandTree(currentVertex, 'R')) {
+		int* posIn = new int [2];
+		posIn[0] = currentVertex -> getPlayerPos(0);
+		posIn[1] = currentVertex -> getPlayerPos(1) + 1;
+		int** boxes = moveBox(currentVertex, posIn, 'R');
+		if (checkExplored(posIn, boxes)) {
+			Vertex* node = new Vertex(posIn, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("R"));
 			vertx.push(node);
 		}
 	}

@@ -2,7 +2,7 @@
 
 File name: Vertex.h
 Creation date: 02/11/2020
-Modification date: 15/11/2019
+Modification date: 15/11/2020
 Authors: Bryan Steven Biojó     - 1629366
          Julián Andrés Castaño  - 1625743
 		 Juan Sebastián Saldaña - 
@@ -22,8 +22,8 @@ using namespace std;
 // Defining the parameters of the vertex or node
 class Vertex {
     private:
-        int * playerPos = new int[2]; // Pointer (...)
-        int ** boxesPos; // Double pointer (...)
+        int * playerPos = new int[2];
+        int ** boxesPos;
         int depthTree;
         string path = "";
         bool isLeaf;

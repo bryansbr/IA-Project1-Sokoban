@@ -2,7 +2,7 @@
 
 File name: DFSAgent.h
 Creation date: 02/11/2020
-Modification date: 15/11/2019
+Modification date: 15/11/2020
 Authors: Bryan Steven Biojó     - 1629366
          Julián Andrés Castaño  - 1625743
 		 Juan Sebastián Saldaña - 
@@ -10,6 +10,7 @@ Authors: Bryan Steven Biojó     - 1629366
 
 */
 
+// Libraries
 #ifndef DFSAGENT_H
 #define DFSAGENT_H
 #include <iostream>
@@ -19,15 +20,16 @@ Authors: Bryan Steven Biojó     - 1629366
 #include "Vertex.h"
 using namespace std;
 
-class DFSAgent{
+// Defining the parameters of DFS Agent.
+class DFSAgent {
     private:
         int numBoxes;
         int** targets;
-        vector <string> board;
-        stack <Vertex*> vertx;
-        vector <Vertex*> explored;
+        stack<Vertex*> vertx;
+        vector<string> board;
+        vector<Vertex*> explored;
     public:
-        DFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector <string>* boardIn);
+        DFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string>* boardIn);
         ~DFSAgent();
         void identifyTargets();
         string startSearch();
