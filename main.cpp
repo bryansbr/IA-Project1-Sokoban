@@ -1,119 +1,101 @@
 /*
-Sokoban
 
-Integrantes:
-Daniel Alejandro Diaz: 1629338
-Liliana Narvaez: 1530302
-Steban Cadena Giraldo: 1670129
+File name: main.cpp
+Creation date: 02/11/2020
+Modification date: 15/11/2020
+Authors: Bryan Steven Biojó     - 1629366
+         Julián Andrés Castaño  - 1625743
+		 Juan Sebastián Saldaña - 
+		 El otro men xd         - 
+
 */
+
+// Libraries
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
+#include <vector>
 #include <string>
 #include <stack>
-#include <vector>
-#include <sstream>
-#include "Nodo.h"
-#include "AgenteBFS.h"
-#include "AgenteDFS.h"
-#include "AgenteIDFS.h"
-
+#include "Vertex.h"
+#include "BFSAgent.h"
+#include "DFSAgent.h"
+#include "IterativeDFSAgent.h"
 using namespace std;
 
-vector <string> table;
+// Creation objects.
+DFSAgent* agentDFS; 
+BFSAgent* agentBFS; 
+IterativeDFSAgent* iterativeAgentIDFS; 
+
+// Initial variables.
+vector<string> board;
+int* posIn;
+int** initBoxesPos;
+int search = 0;
 int numBoxes;
-int ** cajasInit;
-int *pos;
-int search=0;
 
-AgenteDFS * agentDFS; 
-AgenteBFS * agentBFS; 
-AgenteIDFS * agentIDFS; 
-
-
-void leerArchivo(string fileName){
-		
-	ifstream tablero(fileName);
-	
+// Reading files
+void readFiles(string fileName) {
+	ifstream myBoard(fileName);
 	vector<string> file;
-	int endTable=0;
-	string texto;
-	
-	
-	while(!tablero.eof()){
-		tablero >> texto;
-		if(texto[0]!='W' && texto[0]!='0' && texto[0]!='X' && endTable==0){
-			endTable=file.size();
-			
+	int endBoard = 0;
+	string text;
+
+// Check do while loops in algorithms...	
+	while (!myBoard.eof()) {
+		myBoard >> text;
+		if (text[0]!= 'W' && text[0] != '0' && text[0] != 'X' && endBoard == 0) {
+			endBoard = file.size();
 		}		
-		file.push_back(texto);
-		if(endTable==0)table.push_back(texto);
+		file.push_back(text);
+		if (endBoard == 0) {
+			board.push_back(text);
+		}
 	}
-
-	tablero.close();
-
-	//Se almacena la posición del jugador en las variables de arreglo
-
-	pos = new int[2];
-	
+	myBoard.close();
+	//Se almacena la posición del jugador en las variables de arreglo (REVISAR ESTO @bryansbr)
+	posIn = new int[2];
 	vector <string> posicionJu; 
-    stringstream check1(file[endTable]);
+    stringstream check1(file[endBoard]);
     string intermediate;
-
  	getline(check1, intermediate, ',');
     posicionJu.push_back(intermediate); 
 	getline(check1, intermediate, ',');
     posicionJu.push_back(intermediate); 
-    
-
-	pos[0] = stoi(posicionJu[0]);
-	pos[1] = stoi(posicionJu[1]);
-
-
-	cajasInit=new int*[(file.size() - (endTable))];
-	int bandera = 0;
-
-	for(int i = (endTable+1) ; i<file.size() ; i++){
-
-		cajasInit[bandera]= new int [2];
-
+	posIn[0] = stoi(posicionJu[0]);
+	posIn[1] = stoi(posicionJu[1]);
+	initBoxesPos = new int*[(file.size() - (endBoard))];
+	int flag = 0;
+	for(int i = (endBoard + 1) ; i < file.size(); i++) {
+		initBoxesPos[flag] = new int [2];
 		vector <string> posicionCa; 
     	stringstream check(file[i]);
     	string intermediate;
-
-    	while(getline(check, intermediate, ',')) 
-    	{ 
+    	while(getline(check, intermediate, ',')) { 
         	posicionCa.push_back(intermediate); 
     	} 
-
-		cajasInit[bandera][0] = stoi(posicionCa[0]);
-		cajasInit[bandera][1] = stoi(posicionCa[1]);
-
-		bandera++;
+		initBoxesPos[flag][0] = stoi(posicionCa[0]);
+		initBoxesPos[flag][1] = stoi(posicionCa[1]);
+		flag++;
 	}
-
-
-	numBoxes=(file.size() - (endTable+1));
-	
-
+	numBoxes = (file.size() - (endBoard + 1));
 }
 
-
-
-int main(int argc, char **argv){
-
-	leerArchivo(argv[1]);
-		
-	agentBFS = new AgenteBFS(numBoxes,pos,cajasInit,&table);
+// Main method
+int main(int argc, char **argv) {
+	readFiles(argv[1]);
+	// BFS
+	agentBFS = new BFSAgent(numBoxes, posIn, initBoxesPos, &board);
 	agentBFS->identifyTargets();
-	cout << agentBFS->iniciarBusqueda() << endl;	
-
-	agentDFS = new AgenteDFS(numBoxes,pos,cajasInit,&table);
+	cout << agentBFS->startSearch() << endl;	
+	// DFS
+	agentDFS = new DFSAgent(numBoxes, posIn, initBoxesPos, &board);
 	agentDFS->identifyTargets();
-	cout << agentDFS->iniciarBusqueda() << endl;	
-	
-	agentIDFS = new AgenteIDFS(numBoxes,pos,cajasInit,&table);	
-	agentIDFS->identifyTargets();
-	cout << agentIDFS->iniciarBusqueda() << endl;
-
+	cout << agentDFS->startSearch() << endl;	
+	// IterativeDFS
+	iterativeAgentIDFS = new IterativeDFSAgent(numBoxes, posIn, initBoxesPos, &board);	
+	iterativeAgentIDFS -> identifyTargets();
+	cout << iterativeAgentIDFS -> startSearch() << endl;
 }
