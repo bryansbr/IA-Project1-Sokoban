@@ -25,9 +25,9 @@ Authors: Bryan Steven Biojó     - 1629366
 using namespace std;
 
 // Creation objects.
-DFSAgent* agentDFS; 
 BFSAgent* agentBFS; 
-IterativeDFSAgent* iterativeAgentIDFS; 
+DFSAgent* agentDFS; 
+IterativeDFSAgent* iterativeAgentDFS; 
 
 // Initial variables.
 vector<string> board;
@@ -55,6 +55,7 @@ void readFiles(string fileName) {
 		}
 	}
 	myBoard.close();
+
 	//Se almacena la posición del jugador en las variables de arreglo (REVISAR ESTO @bryansbr)
 	posIn = new int[2];
 	vector <string> posicionJu; 
@@ -69,7 +70,7 @@ void readFiles(string fileName) {
 	initBoxesPos = new int*[(file.size() - (endBoard))];
 	int flag = 0;
 	for(int i = (endBoard + 1) ; i < file.size(); i++) {
-		initBoxesPos[flag] = new int [2];
+		initBoxesPos[flag] = new int[2];
 		vector <string> posicionCa; 
     	stringstream check(file[i]);
     	string intermediate;
@@ -86,16 +87,20 @@ void readFiles(string fileName) {
 // Main method
 int main(int argc, char **argv) {
 	readFiles(argv[1]);
+
 	// BFS
 	agentBFS = new BFSAgent(numBoxes, posIn, initBoxesPos, &board);
-	agentBFS->identifyTargets();
-	cout << agentBFS->startSearch() << endl;	
+	agentBFS -> identifyTargets();
+	cout << "BFS: " << agentBFS -> startSearch() << endl;
+
 	// DFS
 	agentDFS = new DFSAgent(numBoxes, posIn, initBoxesPos, &board);
-	agentDFS->identifyTargets();
-	cout << agentDFS->startSearch() << endl;	
+	agentDFS -> identifyTargets();
+	cout << "DFS: "  << agentDFS -> startSearch() << endl;
+
 	// IterativeDFS
-	iterativeAgentIDFS = new IterativeDFSAgent(numBoxes, posIn, initBoxesPos, &board);	
-	iterativeAgentIDFS -> identifyTargets();
-	cout << iterativeAgentIDFS -> startSearch() << endl;
+	iterativeAgentDFS = new IterativeDFSAgent(numBoxes, posIn, initBoxesPos, &board);	
+	iterativeAgentDFS -> identifyTargets();
+	cout << "IterativeDFS: " << iterativeAgentDFS -> startSearch() << endl;
+	//return 0;
 }
