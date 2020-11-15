@@ -13,6 +13,7 @@ Authors: Bryan Steven Biojó     - 1629366
 // Libraries
 #include <iostream>
 #include <stdlib.h>
+#include<stdio.h>
 #include <fstream>
 #include <sstream>
 #include <vector>
