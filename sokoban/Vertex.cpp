@@ -15,16 +15,16 @@ Authors: Bryan Steven Biojó     - 1629366
 
 // Setters
 // Constructor method.
-Vertex::Vertex(int* playerPosIn, int** initBoxesPosIn, int treeDepthIn) {
+Vertex::Vertex(int* playerPosIn, int** initBoxesPosIn, int depthTreeIn) {
 	playerPos = playerPosIn;
 	boxesPos = initBoxesPosIn;
-	depthTree = treeDepthIn;
+	depthTree = depthTreeIn;
 }
 
-Vertex::Vertex(int* playerPosIn, int** initBoxesPosIn, int treeDepthIn, string route) {
+Vertex::Vertex(int* playerPosIn, int** initBoxesPosIn, int depthTreeIn, string route) {
 	playerPos = playerPosIn;
 	boxesPos = initBoxesPosIn;
-	depthTree = treeDepthIn;
+	depthTree = depthTreeIn;
 	path = route;
 }
 
@@ -34,8 +34,8 @@ Vertex::~Vertex() {
 }
 
 // Getters
-int Vertex::getPlayerPos(int x) {
-	return playerPos[x];
+int Vertex::getPlayerPos(int a) {
+	return playerPos[a];
 }
 
 int Vertex::getBoxesPos(int i, int j) {
@@ -51,6 +51,6 @@ string Vertex::getPath() {
 }
 
 void Vertex::deletePos() {
-	delete [] playerPos;
-	delete [] boxesPos;
+	delete[] playerPos;
+	delete[] boxesPos;
 }

@@ -28,8 +28,8 @@ class IterativeDFSAgent {
         int** targets;
         Vertex* root;
         stack<Vertex*> vertx;
-        vector<string> board;
         vector<Vertex*> explored;
+        vector<string> board;
     public:
         IterativeDFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector <string>* boardIn);
         ~IterativeDFSAgent();
@@ -40,7 +40,7 @@ class IterativeDFSAgent {
         int** moveBox(Vertex* vtx, int* pos, char action);
         bool checkExploredBoxes(Vertex* vtx, int** boxes);
         bool expandTree(Vertex* vtx, char move);
-        bool checkExplored(int* posIn, int** boxes);
+        bool checkExplored(int* pos, int** boxes);
         void expandVertex();
         bool isSolve();
 };

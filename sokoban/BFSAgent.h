@@ -26,8 +26,8 @@ class BFSAgent {
         int numBoxes;
         int** targets;
         queue<Vertex*> vertx;
-        vector<string> board;
         vector<Vertex*> explored;
+        vector<string> board;
     public:
         BFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string>* boardIn);
         ~BFSAgent();
@@ -38,7 +38,7 @@ class BFSAgent {
         int** moveBox(Vertex* vtx, int* posIn, char action);
         bool checkExploredBoxes(Vertex* vtx, int** boxes);
         bool expandTree(Vertex* vtx, char move);
-        bool checkExplored(int* posIn, int** boxes);
+        bool checkExplored(int* pos, int** boxes);
         void expandVertex();
         bool isSolve();
 };

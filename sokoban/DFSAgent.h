@@ -26,8 +26,8 @@ class DFSAgent {
         int numBoxes;
         int** targets;
         stack<Vertex*> vertx;
-        vector<string> board;
         vector<Vertex*> explored;
+        vector<string> board;
     public:
         DFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string>* boardIn);
         ~DFSAgent();
@@ -35,10 +35,10 @@ class DFSAgent {
         string startSearch();
         bool searchBox(int posA, int posB, Vertex* vtx);
         bool checkObstacle(int posA, int posB, Vertex* vtx);
-        int** moveBox(Vertex* vtx, int* posIn, char action);
+        int** moveBox(Vertex* vtx, int* pos, char action);
         bool checkExploredBoxes(Vertex* vtx, int** boxes);
         bool expandTree(Vertex* vtx, char move);
-        bool checkExplored(int* posIn, int** boxes);
+        bool checkExplored(int* pos, int** boxes);
         void expandVertex();
         bool isSolve();
 };

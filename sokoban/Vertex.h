@@ -22,17 +22,17 @@ using namespace std;
 // Defining the parameters of the vertex or node
 class Vertex {
     private:
-        int * playerPos = new int[2];
-        int ** boxesPos;
+        int* playerPos = new int[2];
+        int** boxesPos;
         int depthTree;
-        string path = "";
+        string path = " ";
         bool isLeaf;
     public:
-        Vertex(int * playerPosIn, int ** initBoxesPosIn, int treeDepthIn);
-        Vertex(int * playerPosIn, int ** initBoxesPosIn, int treeDepthIn, string route);
+        Vertex(int * playerPosIn, int ** initBoxesPosIn, int depthTreeIn);
+        Vertex(int * playerPosIn, int ** initBoxesPosIn, int depthTreeIn, string route);
         ~Vertex();
         // Getters
-        int getPlayerPos(int x);
+        int getPlayerPos(int a);
         int getBoxesPos(int i, int j);
         int getDepthTree();
         string getPath();
