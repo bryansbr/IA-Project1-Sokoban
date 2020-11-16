@@ -44,20 +44,6 @@ void DFSAgent::identifyTargets() {
 	}
 }
 
-// This method starts the tree search.
-string DFSAgent::startSearch() {
-	while (!isSolve()) {
-		if (vertx.top() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
-			vertx.pop();
-			//cout << "Maximum depth level reached (64 levels).";
-		} else {
-			explored.push_back(vertx.top());
-			expandVertex();
-		}
-	}
-	return vertx.top() -> getPath();
-}
-
 // This method is in charge of searching the boxes in the board.
 bool DFSAgent::searchBox(int posA, int posB, Vertex* vtx) {
 	for (int i = 0; i < numBoxes; i++) {
@@ -218,6 +204,20 @@ void DFSAgent::expandVertex() {
 			vertx.push(vtx);
 		}
 	}
+}
+
+// This method starts the tree search.
+string DFSAgent::startSearch() {
+	while (!isSolve()) {
+		if (vertx.top() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
+			vertx.pop();
+			//cout << "Maximum depth level reached (64 levels).";
+		} else {
+			explored.push_back(vertx.top());
+			expandVertex();
+		}
+	}
+	return vertx.top() -> getPath();
 }
 
 // This method checks if the tree expansion was done.

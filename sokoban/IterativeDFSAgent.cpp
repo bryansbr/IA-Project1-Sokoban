@@ -45,26 +45,6 @@ void IterativeDFSAgent::identifyTargets() {
 	}
 }
 
-// This method starts the tree search.
-string IterativeDFSAgent::startSearch() {
-	depthLimit = 0;	
-	while (!isSolve()) {
-		if (vertx.top() -> getDepthTree() < depthLimit) { //Problem here? Check!	 @bryansbr @AndresDFX
-			expandVertex();	
-		} else {
-			vertx.pop();
-		}
-		if (vertx.empty()) {
-			depthLimit++;
-			for (int j = 0; j < explored.size(); j++) {
-				explored.pop_back();
-			}
-			vertx.push(root);	
-		}
-	}
-	return vertx.top() -> getPath();
-}
-
 // This method is in charge of searching the boxes in the board.
 bool IterativeDFSAgent::searchBox(int posA, int posB, Vertex* vtx) {
 	for (int i = 0; i < numBoxes; i++) {
@@ -230,6 +210,26 @@ void IterativeDFSAgent::expandVertex() {
 			vertx.push(vtx);
 		}
 	}	
+}
+
+// This method starts the tree search.
+string IterativeDFSAgent::startSearch() {
+	depthLimit = 0;	
+	while (!isSolve()) {
+		if (vertx.top() -> getDepthTree() < depthLimit) { //Problem here? Check!	 @bryansbr @AndresDFX
+			expandVertex();	
+		} else {
+			vertx.pop();
+		}
+		if (vertx.empty()) {
+			depthLimit++;
+			for (int j = 0; j < explored.size(); j++) {
+				explored.pop_back();
+			}
+			vertx.push(root);	
+		}
+	}
+	return vertx.top() -> getPath();
 }
 
 // This method checks if the tree expansion was done.

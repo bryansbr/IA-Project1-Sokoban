@@ -42,20 +42,6 @@ void BFSAgent::identifyTargets() {
 	}
 }
 
-// This method starts the tree search.
-string BFSAgent::startSearch() {
-	while (!isSolve()) {
-		if (vertx.front() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
-			vertx.pop();
-			//cout << "Maximum depth level reached (64 levels).";
-		} else {
-			explored.push_back(vertx.front());
-			expandVertex();
-		}
-	}
-	return vertx.front() -> getPath(); 
-}
-
 // This method is in charge of searching the boxes in the board.
 bool BFSAgent::searchBox(int posA, int posB, Vertex* vtx) {
 	for (int i = 0; i < numBoxes; i++) {
@@ -215,6 +201,20 @@ void BFSAgent::expandVertex() {
 			vertx.push(vtx);
 		}
 	}	
+}
+
+// This method starts the tree search.
+string BFSAgent::startSearch() {
+	while (!isSolve()) {
+		if (vertx.front() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
+			vertx.pop();
+			//cout << "Maximum depth level reached (64 levels).";
+		} else {
+			explored.push_back(vertx.front());
+			expandVertex();
+		}
+	}
+	return vertx.front() -> getPath(); 
 }
 
 // This method checks if the tree expansion was done.
