@@ -15,7 +15,7 @@ Authors: Bryan Steven Biojó     - 1629366
 
 // Constructor method.
 BFSAgent::BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* boardIn) {	
-	board =* boardIn;
+	board = *boardIn;
     numBoxes = numBoxesIn;
     Vertex* vtx = new Vertex(pos, initBoxesPosIn, 0);
 	vertx.push(vtx);
@@ -47,6 +47,7 @@ string BFSAgent::startSearch() {
 	while (!isSolve()) {
 		if (vertx.front() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
 			vertx.pop();
+			//cout << "Maximum depth level reached (64 levels).";
 		} else {
 			explored.push_back(vertx.front());
 			expandVertex();
@@ -97,8 +98,8 @@ int** BFSAgent::moveBox(Vertex* vtx, int* pos, char action){
 				case 'R':
 					newBoxes[i][1] = newBoxes[i][1] + 1;
 				break;
-				default:
-					"Error. Invalid move!";
+				/*default:
+					"Error. Invalid move!";*/
 			}
 		}
 	}
@@ -154,8 +155,8 @@ bool BFSAgent::expandTree(Vertex* vtx, char move) {
 				return true;
 			}
 		break;
-		default:
-			"Error. Invalid move!";
+		/*default:
+			"Error. Invalid move!";*/
 	}
 	return false;
 }

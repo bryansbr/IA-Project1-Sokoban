@@ -15,7 +15,7 @@ Authors: Bryan Steven Biojó     - 1629366
 
 // Constructor method
 DFSAgent::DFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* boardIn) {	
-	board =* boardIn;
+	board = *boardIn;
     numBoxes = numBoxesIn;
     Vertex* vtx = new Vertex(pos, initBoxesPosIn, 0);
 	vertx.push(vtx);
@@ -45,10 +45,11 @@ void DFSAgent::identifyTargets() {
 }
 
 // This method starts the tree search.
-string DFSAgent::startSearch() { // Be careful, check! @bryansbr @AndresDFX...
+string DFSAgent::startSearch() {
 	while (!isSolve()) {
 		if (vertx.top() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
 			vertx.pop();
+			//cout << "Maximum depth level reached (64 levels).";
 		} else {
 			explored.push_back(vertx.top());
 			expandVertex();
@@ -99,8 +100,8 @@ int** DFSAgent::moveBox(Vertex* vtx, int* pos, char action) {
 				case 'R':
 					newBoxes[i][1] = newBoxes[i][1] + 1;
 				break;
-				default:
-					"Error. Invalid move!";
+				/*default:
+					"Error. Invalid move!";*/
 			}
 		}
 	}
@@ -157,8 +158,8 @@ bool DFSAgent::expandTree(Vertex* vtx, char move) {
 				return true;
 			}
 		break;
-		default:
-			"Error. Invalid move!";
+		/*default:
+			"Error. Invalid move!";*/
 	}
 	return false;
 }
@@ -179,42 +180,42 @@ void DFSAgent::expandVertex() {
 	vertx.pop();
 	if (expandTree(currentVertex, 'U')) {
 		int* pos = new int[2];
-		int** boxes =moveBox(currentVertex, pos, 'U');
 		pos[0] = currentVertex -> getPlayerPos(0) - 1;
 		pos[1] = currentVertex -> getPlayerPos(1);
+		int** boxes =moveBox(currentVertex, pos, 'U');
 		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("U"));
-			vertx.push(node);
+			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("U"));
+			vertx.push(vtx);
 		}
 	}
 	if (expandTree(currentVertex, 'D')) {
 		int* pos = new int[2];
-		int** boxes =moveBox(currentVertex, pos, 'D');
 		pos[0] = currentVertex -> getPlayerPos(0) + 1;
 		pos[1] = currentVertex -> getPlayerPos(1);
+		int** boxes =moveBox(currentVertex, pos, 'D');
 		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("D"));
-			vertx.push(node);
+			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("D"));
+			vertx.push(vtx);
 		}
 	}
 	if (expandTree(currentVertex, 'L')) {
 		int* pos = new int[2];
-		int** boxes = moveBox(currentVertex, pos, 'L');
 		pos[0] = currentVertex -> getPlayerPos(0);
 		pos[1] = currentVertex -> getPlayerPos(1) - 1;
+		int** boxes = moveBox(currentVertex, pos, 'L');
 		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("L"));
-			vertx.push(node);
+			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("L"));
+			vertx.push(vtx);
 		}
 	}
 	if (expandTree(currentVertex, 'R')) {
 		int* pos = new int[2];
-		int** boxes = moveBox(currentVertex, pos, 'R');
 		pos[0] = currentVertex -> getPlayerPos(0);
 		pos[1] = currentVertex -> getPlayerPos(1) + 1;
+		int** boxes = moveBox(currentVertex, pos, 'R');
 		if (checkExplored(pos, boxes)) {
-			Vertex* node = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("R"));
-			vertx.push(node);
+			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("R"));
+			vertx.push(vtx);
 		}
 	}
 }

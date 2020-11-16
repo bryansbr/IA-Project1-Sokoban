@@ -97,9 +97,8 @@ int main(int argc, char **argv) {
 	agentDFS -> identifyTargets();
 	cout << "DFS: "  << agentDFS -> startSearch() << endl;
 
-	// IterativeDFS
+	/* IterativeDFS
 	iterativeAgentDFS = new IterativeDFSAgent(numBoxes, pos, initBoxesPos, &board);	
 	iterativeAgentDFS -> identifyTargets();
-	cout << "IterativeDFS: " << iterativeAgentDFS -> startSearch() << endl;
-	//return 0;
+	cout << "IterativeDFS: " << iterativeAgentDFS -> startSearch() << endl;*/
 }

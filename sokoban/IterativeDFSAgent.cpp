@@ -15,7 +15,7 @@ Authors: Bryan Steven Biojó     - 1629366
 
 // Constructor method
 IterativeDFSAgent::IterativeDFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string> *boardIn) {	
-	board =* boardIn;
+	board = *boardIn;
     numBoxes = numBoxesIn;
     Vertex* vtx = new Vertex(pos, initBoxesPosIn, 0);
 	root = vtx; // Careful!
@@ -107,8 +107,8 @@ int** IterativeDFSAgent::moveBox(Vertex* vtx, int* pos, char action) {
 				case 'R':
 					newBoxes[i][1] = newBoxes[i][1] + 1;
 				break;
-				default:
-					"Error. Invalid move!";
+				/*default:
+					"Error. Invalid move!";*/
 			}
 		}
 	}
@@ -164,8 +164,8 @@ bool IterativeDFSAgent::expandTree(Vertex* vtx, char move) {
 				return true;
 			}
 		break;
-		default:
-			"Error. Invalid move!";
+		/*default:
+			"Error. Invalid move!";*/
 	}
 	return false;
 }
@@ -184,6 +184,7 @@ bool IterativeDFSAgent::checkExplored(int* pos, int** boxes) {
 void IterativeDFSAgent::expandVertex() {
 	if (vertx.top() -> getDepthTree() >= 64) { // Tree depth restricted to level 64.
 		vertx.pop();
+		//cout << "Maximum depth level reached (64 levels).";
 		return;
 	}
 	explored.push_back(vertx.top());
@@ -191,9 +192,9 @@ void IterativeDFSAgent::expandVertex() {
 	vertx.pop();
 	if (expandTree(currentVertex, 'U')) {
 		int* pos = new int[2];
-		int** boxes = moveBox(currentVertex, pos, 'U');
 		pos[0] = currentVertex -> getPlayerPos(0) - 1;
 		pos[1] = currentVertex -> getPlayerPos(1);
+		int** boxes = moveBox(currentVertex, pos, 'U');
 		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("U"));
 			vertx.push(vtx);
@@ -201,9 +202,9 @@ void IterativeDFSAgent::expandVertex() {
 	}
 	if (expandTree(currentVertex, 'D')) {
 		int * pos = new int[2];
-		int** boxes = moveBox(currentVertex, pos, 'D');
 		pos[0] = currentVertex -> getPlayerPos(0) + 1;
 		pos[1] = currentVertex -> getPlayerPos(1);
+		int** boxes = moveBox(currentVertex, pos, 'D');
 		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("D"));
 			vertx.push(vtx);
@@ -211,9 +212,9 @@ void IterativeDFSAgent::expandVertex() {
 	}	
 	if (expandTree(currentVertex, 'L')) {
 		int* pos = new int[2];
-		int** boxes = moveBox(currentVertex, pos, 'L');
 		pos[0] = currentVertex -> getPlayerPos(0);
 		pos[1] = currentVertex -> getPlayerPos(1) - 1;
+		int** boxes = moveBox(currentVertex, pos, 'L');
 		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("L"));
 			vertx.push(vtx);
@@ -221,9 +222,9 @@ void IterativeDFSAgent::expandVertex() {
 	}
 	if (expandTree(currentVertex, 'R')) {
 		int* pos = new int[2];
-		int** boxes = moveBox(currentVertex, pos, 'R');
 		pos[0] = currentVertex -> getPlayerPos(0);
 		pos[1] = currentVertex -> getPlayerPos(1) + 1;
+		int** boxes = moveBox(currentVertex, pos, 'R');
 		if (checkExplored(pos, boxes)) {
 			Vertex* vtx = new Vertex(pos, boxes, currentVertex -> getDepthTree() + 1, currentVertex -> getPath().append("R"));
 			vertx.push(vtx);
