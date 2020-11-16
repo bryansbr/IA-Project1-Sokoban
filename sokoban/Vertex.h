@@ -5,8 +5,8 @@ Creation date: 02/11/2020
 Modification date: 15/11/2020
 Authors: Bryan Steven Biojó     - 1629366
          Julián Andrés Castaño  - 1625743
-		 Juan Sebastián Saldaña - 
-		 El otro men xd         - 
+		 Juan Sebastián Saldaña - 1623447
+		 Juan Pablo Rendón      - 1623049
 
 */
 
