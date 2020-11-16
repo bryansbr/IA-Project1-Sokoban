@@ -14,10 +14,10 @@ Authors: Bryan Steven Biojó     - 1629366
 #include "BFSAgent.h"
 
 // Constructor method.
-BFSAgent::BFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string>* boardIn) {	
+BFSAgent::BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* boardIn) {	
 	board =* boardIn;
     numBoxes = numBoxesIn;
-    Vertex* vtx = new Vertex(posIn, initBoxesPosIn, 0);
+    Vertex* vtx = new Vertex(pos, initBoxesPosIn, 0);
 	vertx.push(vtx);
 }
 

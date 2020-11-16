@@ -31,7 +31,7 @@ class IterativeDFSAgent {
         vector<Vertex*> explored;
         vector<string> board;
     public:
-        IterativeDFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector <string>* boardIn);
+        IterativeDFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector <string>* boardIn);
         ~IterativeDFSAgent();
         void identifyTargets();
         string startSearch();

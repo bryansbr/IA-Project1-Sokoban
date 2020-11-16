@@ -29,7 +29,7 @@ class DFSAgent {
         vector<Vertex*> explored;
         vector<string> board;
     public:
-        DFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string>* boardIn);
+        DFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* boardIn);
         ~DFSAgent();
         void identifyTargets();
         string startSearch();

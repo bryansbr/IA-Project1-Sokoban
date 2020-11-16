@@ -29,13 +29,13 @@ class BFSAgent {
         vector<Vertex*> explored;
         vector<string> board;
     public:
-        BFSAgent(int numBoxesIn, int* posIn, int** initBoxesPosIn, vector<string>* boardIn);
+        BFSAgent(int numBoxesIn, int* pos, int** initBoxesPosIn, vector<string>* board);
         ~BFSAgent();
         void identifyTargets();
         string startSearch();
         bool searchBox(int posA, int posB, Vertex* vtx);
         bool checkObstacle(int posA, int posB, Vertex* vtx);
-        int** moveBox(Vertex* vtx, int* posIn, char action);
+        int** moveBox(Vertex* vtx, int* pos, char action);
         bool checkExploredBoxes(Vertex* vtx, int** boxes);
         bool expandTree(Vertex* vtx, char move);
         bool checkExplored(int* pos, int** boxes);

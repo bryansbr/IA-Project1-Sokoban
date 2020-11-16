@@ -51,6 +51,6 @@ string Vertex::getPath() {
 }
 
 void Vertex::deletePos() {
-	delete[] playerPos;
-	delete[] boxesPos;
+	delete [] playerPos;
+	delete [] boxesPos;
 }
