@@ -49,7 +49,7 @@ void IterativeDFSAgent::identifyTargets() {
 string IterativeDFSAgent::startSearch() {
 	depthLimit = 0;	
 	while (!isSolve()) {
-		if (vertx.top() -> getDepthTree() < depthLimit) { // Be careful, check! @bryansbr @AndresDFX...
+		if (vertx.top() -> getDepthTree() < depthLimit) { //Problem here? Check!	 @bryansbr @AndresDFX
 			expandVertex();	
 		} else {
 			vertx.pop();
@@ -93,7 +93,7 @@ int** IterativeDFSAgent::moveBox(Vertex* vtx, int* pos, char action) {
 		newBoxes[i] = new int[2];
 		newBoxes[i][0] = vtx -> getBoxesPos(i, 0);
 		newBoxes[i][1] = vtx -> getBoxesPos(i, 1);
-		if(vtx -> getBoxesPos(i,0) == pos[0] && vtx -> getBoxesPos(i, 1) == pos[1]) {
+		if(vtx -> getBoxesPos(i, 0) == pos[0] && vtx -> getBoxesPos(i, 1) == pos[1]) {
 			switch (action){
 				case 'U':
 					newBoxes[i][0] = newBoxes[i][0] - 1;
@@ -201,7 +201,7 @@ void IterativeDFSAgent::expandVertex() {
 		}
 	}
 	if (expandTree(currentVertex, 'D')) {
-		int * pos = new int[2];
+		int* pos = new int[2];
 		pos[0] = currentVertex -> getPlayerPos(0) + 1;
 		pos[1] = currentVertex -> getPlayerPos(1);
 		int** boxes = moveBox(currentVertex, pos, 'D');
